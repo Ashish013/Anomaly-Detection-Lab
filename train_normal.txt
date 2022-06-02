@@ -1,0 +1,3 @@
+out/Good.mkv
+out/normal_all.avi
+out/normal_all_green.avi

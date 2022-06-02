@@ -1,0 +1,4 @@
+out/Two_Clogged_Tips.mkv
+out/defect2_comb1.avi
+out/defect3_comb1.avi
+out/defect5_comb1.avi
