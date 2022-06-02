@@ -212,19 +212,14 @@ def run(
 
 def save_crop_frames(opt):
     opt = vars(opt)
-    if opt['save-crop']:
-        file_dir = natsort.natsorted(os.listdir('runs/detect/'))[-1]
-        fnames = []
-        writer = None
-        for i in natsort.natsorted(glob.glob('runs/detect/' + file_dir + '/crops/test-tubes/*')):
-          present_fname = os.path.basename(i).split('.')[0].rstrip(string.digits)
-          w,h = 640, 360
-          if present_fname not in fnames:
-            fnames.append(present_fname)
-            writer = cv2.VideoWriter(opt['save-crop-vid-path'] + present_fname+'_output.avi',cv2.VideoWriter_fourcc(*'MJPG'), 30, (w,h))
-            if not writer:
-              writer.release()
+    if opt['save_crop']:
+      file_dir = natsort.natsorted(os.listdir('runs/detect/'))[-1]
+      w,h = 640, 360
+      for j in set([(os.path.basename(i).split('.')[0]).rstrip(string.digits) for i in glob.glob('runs/detect/' + file_dir + '/crops/test-tubes/*')]):
+        writer = cv2.VideoWriter(opt['save_crop_vid_path'] + '/' + j + '.avi',cv2.VideoWriter_fourcc(*'MJPG'), 30, (w,h))
+        for i in natsort.natsorted([k for k in glob.glob('runs/detect/' + file_dir + '/crops/test-tubes/*') if os.path.basename(k).startswith(j)]):
           writer.write(cv2.resize(cv2.imread(i), (w,h)))
+        writer.release()
 
 
 def parse_opt():
